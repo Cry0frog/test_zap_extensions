@@ -1,0 +1,69 @@
+--- # ZAP automation configuration file, for more details see https://www.zaproxy.org/docs/automate/automation-framework/
+env:                                   # The environment, mandatory
+  contexts :                           # List of 1 or more contexts, mandatory
+    - name: context 1                  # Name to be used to refer to this context in other jobs, mandatory
+      urls:                            # A mandatory list of top level urls, everything under each url will be included
+      includePaths:                    # An optional list of regexes to include
+      excludePaths:                    # An optional list of regexes to exclude
+  vars:                                # List of 0 or more variables, can be used in urls and selected other parameters
+  parameters:
+    failOnError: true                  # If set exit on an error         
+    failOnWarning: false               # If set exit on a warning
+    progressToStdout: true             # If set will write job progress to stdout
+
+jobs:
+
+  - type: passiveScan-config           # Passive scan configuration
+    parameters:
+      maxAlertsPerRule: 10             # Int: Maximum number of alerts to raise per rule
+      scanOnlyInScope: true            # Bool: Only scan URLs in scope (recommended)
+      maxBodySizeInBytesToScan:        # Int: Maximum body size to scan, default: 0 - will scan all messages
+  - type: requestor                    # Used to send specific requests to targets
+    parameters:
+      user:                            # String: An optional user to use for authenticated requests, must be defined in the env
+    requests:                          # A list of requests to make
+      - url:                           # String: A mandatory URL of the request to be made
+  - type: delay                        # Pause the plan for a set period of time or event (file created, programmatic method called, API endpoint called)
+    parameters:
+      time:                            # String: The time to wait, format any of ['hh:mm:ss', 'mm:ss', 'ss'], default: 0
+      fileName:                        # String: Name of a file which will cause the job to end early if created, default: empty
+  - type: passiveScan-wait             # Passive scan wait for the passive scanner to finish
+    parameters:
+      maxDuration: 5                   # Int: The max time to wait for the passive scanner, default: 0 unlimited
+    tests:
+      - name: 'test one'                       # Name of the test, optional
+        type: alert                            # Specifies that the test is of type 'alert'
+        action: passIfPresent/passIfAbsent     # String: The condition (presence/absence) of the alert, default: passIfAbsent  
+        scanRuleId:                            # Integer: The id of the scanRule which generates the alert, mandatory  
+        alertName:                             # String: The name of the alert generated, optional
+        url: http://www.example.com/path       # String: The url of the request corresponding to the alert generated, optional
+        method:                                # String: The method of the request corresponding to the alert generated, optional
+        attack:                                # String: The actual attack which generated the alert, optional
+        param:                                 # String: The parameter which was modified to generate the alert, optional
+        evidence:                              # String: The evidence corresponding to the alert generated, optional
+        confidence:                            # String: The confidence of the alert, one of 'False Positive', 'Low', 'Medium', 'High', 'Confirmed', optional
+        risk:                                  # String: The risk of the alert, one of 'Informational', 'Low', 'Medium', 'High', optional
+        otherInfo:                             # String: Addional information corresponding to the alert, optional
+        onFail: 'info'                         # String: One of 'warn', 'error', 'info', mandatory
+  - type: activeScan                   # The active scanner - this actively attacks the target so should only be used with permission
+    parameters:
+      context:                         # String: Name of the context to attack, default: first context
+      user:                            # String: An optional user to use for authentication, must be defined in the env
+      policy:                          # String: Name of the scan policy to be used, default: Default Policy
+      maxRuleDurationInMins:           # Int: The max time in minutes any individual rule will be allowed to run for, default: 0 unlimited
+      maxScanDurationInMins:           # Int: The max time in minutes the active scanner will be allowed to run for, default: 0 unlimited
+    tests:
+      - name: 'test one'                       # Name of the test, optional
+        type: alert                            # Specifies that the test is of type 'alert'
+        action: passIfPresent/passIfAbsent     # String: The condition (presence/absence) of the alert, default: passIfAbsent  
+        scanRuleId:                            # Integer: The id of the scanRule which generates the alert, mandatory  
+        alertName:                             # String: The name of the alert generated, optional
+        url: http://www.example.com/path       # String: The url of the request corresponding to the alert generated, optional
+        method:                                # String: The method of the request corresponding to the alert generated, optional
+        attack:                                # String: The actual attack which generated the alert, optional
+        param:                                 # String: The parameter which was modified to generate the alert, optional
+        evidence:                              # String: The evidence corresponding to the alert generated, optional
+        confidence:                            # String: The confidence of the alert, one of 'False Positive', 'Low', 'Medium', 'High', 'Confirmed', optional
+        risk:                                  # String: The risk of the alert, one of 'Informational', 'Low', 'Medium', 'High', optional
+        otherInfo:                             # String: Addional information corresponding to the alert, optional
+        onFail: 'info'                         # String: One of 'warn', 'error', 'info', mandatory
