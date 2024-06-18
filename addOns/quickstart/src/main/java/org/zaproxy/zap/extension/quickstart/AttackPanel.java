@@ -88,9 +88,6 @@ public class AttackPanel extends QuickStartSubPanel {
                 QuickStartHelper.getWrappedLabel("quickstart.attack.panel.message1"),
                 LayoutHelper.getGBC(0, 0, 2, 1.0D, DisplayUtils.getScaledInsets(5, 5, 5, 5)));
         panel.add(
-                QuickStartHelper.getWrappedLabel("quickstart.attack.panel.message2"),
-                LayoutHelper.getGBC(0, 1, 2, 1.0D, DisplayUtils.getScaledInsets(5, 5, 5, 5)));
-        panel.add(
                 new JLabel(" "),
                 LayoutHelper.getGBC(
                         0, 2, 2, 1.0D, DisplayUtils.getScaledInsets(5, 5, 5, 5))); // Spacer
