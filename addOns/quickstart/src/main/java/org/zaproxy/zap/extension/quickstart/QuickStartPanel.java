@@ -65,18 +65,13 @@ public class QuickStartPanel extends AbstractPanel {
     private JScrollPane jScrollPane;
     private JButton attackButton = null;
     private JPanel buttonPanel;
-    private JButton learnMoreButton = null;
     private JButton exploreButton = null;
     private JButton servicesButton = null;
-    private SupportPanel supportPanel;
     private LearnMorePanel learnMorePanel;
     private DefaultExplorePanel defaultExplorePanel;
     private QuickStartSubPanel explorePanel;
     private JXPanel newsPanel;
     private JLabel topTitle;
-
-    private NewsItem newsItem;
-    private static ImageIcon osfIcon;
 
     public QuickStartPanel(ExtensionQuickStart extension) {
         super();
@@ -132,7 +127,7 @@ public class QuickStartPanel extends AbstractPanel {
         buttonPanel.add(this.getAttackButton());
         buttonPanel.add(this.getExploreButton());
         buttonPanel.add(this.getSupportButton());
-        buttonPanel.add(this.getLearnMoreButton());
+//        buttonPanel.add(this.getLearnMoreButton());
 
         panelContent.add(buttonPanel, LayoutHelper.getGBC(0, ++panelY, 5, 1.0D, 1.0D));
 
@@ -142,32 +137,6 @@ public class QuickStartPanel extends AbstractPanel {
 
         getAttackPanel().setMode(Control.getSingleton().getMode());
         getLearnMorePanel();
-    }
-
-    public static ImageIcon getOsfIcon() {
-        if (osfIcon == null) {
-            osfIcon =
-                    DisplayUtils.getScaledIcon(
-                            new ImageIcon(
-                                    QuickStartPanel.class.getResource(
-                                            ExtensionQuickStart.RESOURCES + "/co-osf.png")));
-        }
-        return osfIcon;
-    }
-
-    protected static JLabel getOsfImageLabel() {
-        JLabel label = new JLabel();
-        label.setIcon(getOsfIcon());
-        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        label.addMouseListener(
-                new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        Stats.incCounter("stats.ui.link.osf");
-                        DesktopUtils.openUrlInBrowser("https://crashoverride.com/?zap=ui");
-                    }
-                });
-        return label;
     }
 
     @Override
@@ -235,16 +204,9 @@ public class QuickStartPanel extends AbstractPanel {
                     Constant.messages.getString("quickstart.top.button.tooltip.support"));
             servicesButton.setPreferredSize(DisplayUtils.getScaledDimension(150, 120));
 
-            servicesButton.addActionListener(e -> jScrollPane.setViewportView(getSupportPanel()));
+//            servicesButton.addActionListener(e -> jScrollPane.setViewportView(getSupportPanel()));
         }
         return servicesButton;
-    }
-
-    public SupportPanel getSupportPanel() {
-        if (supportPanel == null) {
-            supportPanel = new SupportPanel(this.extension, this);
-        }
-        return supportPanel;
     }
 
     public LearnMorePanel getLearnMorePanel() {
@@ -252,24 +214,6 @@ public class QuickStartPanel extends AbstractPanel {
             learnMorePanel = new LearnMorePanel(this.extension, this);
         }
         return learnMorePanel;
-    }
-
-    private JButton getLearnMoreButton() {
-        if (learnMoreButton == null) {
-            learnMoreButton = new JButton();
-            learnMoreButton.setText(
-                    Constant.messages.getString("quickstart.top.button.label.moreinfo"));
-            learnMoreButton.setIcon(getLearnMorePanel().getIcon());
-            learnMoreButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-            learnMoreButton.setHorizontalTextPosition(AbstractButton.CENTER);
-            learnMoreButton.setToolTipText(
-                    Constant.messages.getString("quickstart.top.button.tooltip.moreinfo"));
-            learnMoreButton.setPreferredSize(DisplayUtils.getScaledDimension(150, 120));
-
-            learnMoreButton.addActionListener(
-                    e -> jScrollPane.setViewportView(getLearnMorePanel()));
-        }
-        return learnMoreButton;
     }
 
     public DefaultExplorePanel getDefaultExplorePanel() {
@@ -350,9 +294,6 @@ public class QuickStartPanel extends AbstractPanel {
     private JXPanel getNewsPanel() {
         if (newsPanel == null) {
             newsPanel = new QuickStartBackgroundPanel();
-            if (newsItem != null) {
-                this.showNews(newsItem);
-            }
         }
         return newsPanel;
     }
@@ -400,13 +341,6 @@ public class QuickStartPanel extends AbstractPanel {
                 LayoutHelper.getGBC(3, 0, 1, 0.5D, new Insets(5, 5, 5, 5))); // Spacer
 
         newsPanel.revalidate();
-    }
-
-    public void announceNews(NewsItem newsItem) {
-        this.newsItem = newsItem;
-        if (this.newsPanel != null) {
-            this.showNews(newsItem);
-        }
     }
 
     class CloseButton extends JButton {
