@@ -125,7 +125,7 @@ public class QuickStartPanel extends AbstractPanel {
         buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(panelContent.getBackground());
         buttonPanel.add(this.getAttackButton());
-        buttonPanel.add(this.getExploreButton());
+//        buttonPanel.add(this.getExploreButton());
 //        buttonPanel.add(this.getSupportButton());
 //        buttonPanel.add(this.getLearnMoreButton());
 
@@ -174,7 +174,7 @@ public class QuickStartPanel extends AbstractPanel {
         if (attackButton == null) {
             attackButton = new JButton();
             attackButton.setText(Constant.messages.getString("quickstart.top.button.label.attack"));
-//            attackButton.setIcon(getAttackPanel().getIcon());
+            attackButton.setIcon(getAttackPanel().getIcon());
             attackButton.setVerticalTextPosition(AbstractButton.BOTTOM);
             attackButton.setHorizontalTextPosition(AbstractButton.CENTER);
             attackButton.setToolTipText(
