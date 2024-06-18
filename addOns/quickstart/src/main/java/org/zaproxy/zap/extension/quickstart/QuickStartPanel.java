@@ -191,13 +191,6 @@ public class QuickStartPanel extends AbstractPanel {
             servicesButton = new JButton();
             servicesButton.setText(
                     Constant.messages.getString("quickstart.top.button.label.support"));
-            servicesButton.setIcon(
-                    DisplayUtils.getScaledIcon(
-                            new ImageIcon(
-                                    getClass()
-                                            .getResource(
-                                                    ExtensionQuickStart.RESOURCES
-                                                            + "/zap-cs64x64.png"))));
             servicesButton.setVerticalTextPosition(AbstractButton.BOTTOM);
             servicesButton.setHorizontalTextPosition(AbstractButton.CENTER);
             servicesButton.setToolTipText(

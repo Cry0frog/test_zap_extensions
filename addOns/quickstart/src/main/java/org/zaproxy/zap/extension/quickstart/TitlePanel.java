@@ -79,17 +79,6 @@ public class TitlePanel extends QuickStartBackgroundPanel {
                         GridBagConstraints.NONE,
                         GridBagConstraints.CENTER,
                         getInsets()));
-        add(
-                QuickStartPanel.getOsfImageLabel(),
-                LayoutHelper.getGBC(
-                        2,
-                        0,
-                        1,
-                        0,
-                        0,
-                        GridBagConstraints.NONE,
-                        GridBagConstraints.EAST,
-                        getInsets()));
     }
 
     public TitlePanel(String title) {

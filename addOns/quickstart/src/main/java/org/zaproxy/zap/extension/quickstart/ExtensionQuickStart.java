@@ -175,42 +175,7 @@ public class ExtensionQuickStart extends ExtensionAdaptor
             return;
         }
 
-        newsFetcherFuture = CompletableFuture.runAsync(this::fetchNews);
-    }
-
-    private void fetchNews() {
-        try {
-            ZapXmlConfiguration xmlNews = getNews();
-            if (!hasView()) {
-                return;
-            }
-
-            String zapLocale = Constant.getLocale().toString();
-
-            ConfigurationNode newsNode = getFirstChildNode(xmlNews.getRoot(), "news");
-            if (newsNode != null) {
-                String id = getFirstChildNodeString(newsNode, "id");
-                ConfigurationNode localeNode = getFirstChildNode(newsNode, zapLocale);
-                if (localeNode == null) {
-                    localeNode = getFirstChildNode(newsNode, "default");
-                }
-                if (localeNode != null) {
-                    String itemText = getFirstChildNodeString(localeNode, "item");
-
-                    if (itemText != null && itemText.length() > 0) {
-                        announceNews(
-                                new NewsItem(
-                                        id,
-                                        itemText,
-                                        new URI(
-                                                getFirstChildNodeString(localeNode, "link"),
-                                                true)));
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.debug("Failed to read news : {}", e.getMessage(), e);
-        }
+//        newsFetcherFuture = CompletableFuture.runAsync(this::fetchNews);
     }
 
     @Override
@@ -243,12 +208,6 @@ public class ExtensionQuickStart extends ExtensionAdaptor
             return child.getValue().toString();
         }
         return null;
-    }
-
-    private void announceNews(NewsItem newsItem) {
-        if (!this.getQuickStartParam().getClearedNewsItem().equals(newsItem.getId())) {
-            getQuickStartPanel().announceNews(newsItem);
-        }
     }
 
     public QuickStartParam getQuickStartParam() {
